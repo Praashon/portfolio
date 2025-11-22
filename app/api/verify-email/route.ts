@@ -6,16 +6,42 @@ const verificationCodes = new Map<string, { code: string; timestamp: number; for
 // Rate limiting: Track email attempts
 const emailAttempts = new Map<string, { count: number; firstAttempt: number }>();
 
-// List of common disposable email domains
+// List of common disposable email domains (expanded)
 const disposableEmailDomains = [
-  'temp-mail.org', 'tempmail.com', 'guerrillamail.com', '10minutemail.com',
-  'mailinator.com', 'maildrop.cc', 'throwaway.email', 'yopmail.com',
-  'temp-mail.io', 'mohmal.com', 'sharklasers.com', 'guerrillamail.info',
-  'spam4.me', 'grr.la', 'guerrillamail.biz', 'guerrillamail.de',
-  'getairmail.com', 'tempinbox.com', 'tempm.com', 'tempmail.de',
+  // Common temp mail services
+  'temp-mail.org', 'tempmail.com', 'tempmail.net', 'temp-mail.io', 'temp-mail.de',
+  'guerrillamail.com', 'guerrillamail.org', 'guerrillamail.net', 'guerrillamail.info',
+  'guerrillamail.biz', 'guerrillamail.de', 'grr.la', 'guerrillamailblock.com',
+  '10minutemail.com', '10minutemail.net', '10minemail.com', '20minutemail.com',
+  'mailinator.com', 'mailinator.net', 'mailinator2.com', 'maildrop.cc',
+  'throwaway.email', 'throwemail.com', 'yopmail.com', 'yopmail.fr', 'yopmail.net',
+  'mohmal.com', 'sharklasers.com', 'spam4.me', 'getairmail.com',
+  'tempinbox.com', 'tempm.com', 'tempmail.de', 'tempemail.net',
   'dispostable.com', 'trashmail.com', 'fakeinbox.com', 'emltmp.com',
   'mintemail.com', 'getnada.com', 'tempmailo.com', 'emailondeck.com',
-  'tmails.net', 'mytemp.email', 'temporary-mail.net', 'mail.tm'
+  'tmails.net', 'mytemp.email', 'temporary-mail.net', 'mail.tm',
+  // More services
+  'anonbox.net', 'binkmail.com', 'bobmail.info', 'bugmenot.com',
+  'deadaddress.com', 'despam.it', 'disposeamail.com', 'dodgeit.com',
+  'e4ward.com', 'email60.com', 'emailias.com', 'emailinfive.com',
+  'emailsensei.com', 'emailtemporar.ro', 'emailto.de', 'emailxfer.com',
+  'etranquil.com', 'example.com', 'fakemailgenerator.com', 'filzmail.com',
+  'gishpuppy.com', 'goemailgo.com', 'great-host.in', 'harakirimail.com',
+  'hidemail.de', 'incognitomail.com', 'jetable.com', 'jetable.org',
+  'mail-temporaire.com', 'mail-temporaire.fr', 'maileater.com', 'mailexpire.com',
+  'mailin8r.com', 'mailmetrash.com', 'mailnesia.com', 'mailnull.com',
+  'mailsac.com', 'mailtemp.info', 'mailtothis.com', 'meltmail.com',
+  'moncourrier.fr.nf', 'mt2009.com', 'mt2014.com', 'mytrashmail.com',
+  'neverbox.com', 'no-spam.ws', 'nobulk.com', 'noclickemail.com',
+  'nogmailspam.info', 'notsharingmy.info', 'nowmymail.com', 'objectmail.com',
+  'obobbo.com', 'onewaymail.com', 'pookmail.com', 'proxymail.eu',
+  'spambox.us', 'spamfree24.com', 'spamfree24.de', 'spamfree24.org',
+  'spamgourmet.com', 'spaminator.de', 'spaml.com', 'spammotel.com',
+  'spamspot.com', 'supergreatmail.com', 'supermailer.jp', 'teleworm.us',
+  'thanksnospam.info', 'trash-mail.com', 'trash2009.com', 'trashdevil.com',
+  'trashemail.de', 'trashymail.com', 'tyldd.com', 'wegwerfmail.de',
+  'wegwerfmail.net', 'wegwerfmail.org', 'wetrainbayarea.com', 'wronghead.com',
+  'xyzfree.net', 'zehnminutenmail.de', 'zippymail.info'
 ];
 
 // Check if email domain is disposable
@@ -29,19 +55,48 @@ function isDisposableEmail(email: string): boolean {
   }
   
   // Check for common patterns in disposable emails
-  const suspiciousPatterns = ['temp', 'fake', 'trash', 'disposable', 'throwaway'];
-  return suspiciousPatterns.some(pattern => domain.includes(pattern));
+  const suspiciousPatterns = [
+    'temp', 'fake', 'trash', 'disposable', 'throwaway', 'junk',
+    'spam', 'guerrilla', '10min', '20min', 'minute', 'tempor',
+    'dispos', 'instant', 'burner', 'anon', 'hide', 'privacy',
+    'throw', 'delete', 'expire', 'temporary'
+  ];
+  
+  // Check if domain contains any suspicious pattern
+  if (suspiciousPatterns.some(pattern => domain.includes(pattern))) {
+    return true;
+  }
+  
+  // Check for random character domains (common in temp mail)
+  // e.g., abc123xyz.com or random-string.net
+  const randomPattern1 = /^[a-z0-9]{8,}\./;
+  const randomPattern2 = /^[a-z]+-[a-z0-9]+\./;
+  if (randomPattern1.test(domain) || randomPattern2.test(domain)) {
+    return true;
+  }
+  
+  return false;
 }
 
 export async function POST(request: Request) {
   try {
     const { email, name, subject, message, code } = await request.json();
 
-    // Block disposable emails
-    if (!code && isDisposableEmail(email)) {
+    // Validate email format first
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !emailRegex.test(email)) {
       return NextResponse.json(
-        { error: 'Please use a valid email address. Temporary/disposable emails are not allowed.' },
+        { error: 'Please enter a valid email address.' },
         { status: 400 }
+      );
+    }
+
+    // Block disposable emails (check for both new requests and verification)
+    if (isDisposableEmail(email)) {
+      console.log(`Blocked disposable email attempt: ${email}`);
+      return NextResponse.json(
+        { error: 'Temporary/disposable email addresses are not allowed. Please use a permanent email address (Gmail, Yahoo, Outlook, etc.).' },
+        { status: 403 }
       );
     }
 
