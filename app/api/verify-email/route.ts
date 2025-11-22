@@ -3,9 +3,69 @@ import { NextResponse } from 'next/server';
 // Store verification codes temporarily (in production, use Redis or database)
 const verificationCodes = new Map<string, { code: string; timestamp: number; formData: any }>();
 
+// Rate limiting: Track email attempts
+const emailAttempts = new Map<string, { count: number; firstAttempt: number }>();
+
+// List of common disposable email domains
+const disposableEmailDomains = [
+  'temp-mail.org', 'tempmail.com', 'guerrillamail.com', '10minutemail.com',
+  'mailinator.com', 'maildrop.cc', 'throwaway.email', 'yopmail.com',
+  'temp-mail.io', 'mohmal.com', 'sharklasers.com', 'guerrillamail.info',
+  'spam4.me', 'grr.la', 'guerrillamail.biz', 'guerrillamail.de',
+  'getairmail.com', 'tempinbox.com', 'tempm.com', 'tempmail.de',
+  'dispostable.com', 'trashmail.com', 'fakeinbox.com', 'emltmp.com',
+  'mintemail.com', 'getnada.com', 'tempmailo.com', 'emailondeck.com',
+  'tmails.net', 'mytemp.email', 'temporary-mail.net', 'mail.tm'
+];
+
+// Check if email domain is disposable
+function isDisposableEmail(email: string): boolean {
+  const domain = email.split('@')[1]?.toLowerCase();
+  if (!domain) return true;
+  
+  // Check against disposable domains list
+  if (disposableEmailDomains.includes(domain)) {
+    return true;
+  }
+  
+  // Check for common patterns in disposable emails
+  const suspiciousPatterns = ['temp', 'fake', 'trash', 'disposable', 'throwaway'];
+  return suspiciousPatterns.some(pattern => domain.includes(pattern));
+}
+
 export async function POST(request: Request) {
   try {
     const { email, name, subject, message, code } = await request.json();
+
+    // Block disposable emails
+    if (!code && isDisposableEmail(email)) {
+      return NextResponse.json(
+        { error: 'Please use a valid email address. Temporary/disposable emails are not allowed.' },
+        { status: 400 }
+      );
+    }
+
+    // Rate limiting: Max 3 attempts per email per hour
+    if (!code) {
+      const now = Date.now();
+      const attempts = emailAttempts.get(email);
+      
+      if (attempts) {
+        // Reset if more than 1 hour has passed
+        if (now - attempts.firstAttempt > 60 * 60 * 1000) {
+          emailAttempts.set(email, { count: 1, firstAttempt: now });
+        } else if (attempts.count >= 3) {
+          return NextResponse.json(
+            { error: 'Too many attempts. Please try again later.' },
+            { status: 429 }
+          );
+        } else {
+          attempts.count++;
+        }
+      } else {
+        emailAttempts.set(email, { count: 1, firstAttempt: now });
+      }
+    }
 
     // If code is provided, verify it
     if (code) {

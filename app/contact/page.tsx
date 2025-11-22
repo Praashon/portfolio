@@ -79,6 +79,10 @@ export default function Contact() {
           setShowVerification(true);
           setSubmitStatus('idle');
           setIsSubmitting(false);
+        } else if (verifyData.error) {
+          alert(verifyData.error);
+          setSubmitStatus('error');
+          setIsSubmitting(false);
         }
       } catch (error) {
         console.error('Error submitting form:', error);
