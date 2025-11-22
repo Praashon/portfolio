@@ -6,13 +6,31 @@ const verificationCodes = new Map<string, { code: string; timestamp: number; for
 // Rate limiting: Track email attempts
 const emailAttempts = new Map<string, { count: number; firstAttempt: number }>();
 
-// List of common disposable email domains (expanded)
+// List of trusted email providers (whitelist approach)
+const trustedEmailProviders = [
+  // Major email providers
+  'gmail.com', 'googlemail.com', 'yahoo.com', 'yahoo.co.uk', 'yahoo.fr', 'yahoo.de',
+  'outlook.com', 'hotmail.com', 'live.com', 'msn.com',
+  'icloud.com', 'me.com', 'mac.com',
+  'aol.com', 'protonmail.com', 'proton.me', 'pm.me',
+  'zoho.com', 'yandex.com', 'yandex.ru',
+  'mail.com', 'gmx.com', 'gmx.net', 'gmx.de',
+  // Corporate email providers
+  'microsoft.com', 'apple.com', 'amazon.com', 'facebook.com', 'meta.com',
+  'google.com', 'netflix.com', 'tesla.com', 'spacex.com',
+  // Educational domains
+  'edu', 'ac.uk', 'edu.au', 'edu.np', 'edu.in',
+  // Business domains (common extensions)
+  'gov', 'org', 'company', 'business'
+];
+
+// List of common disposable email domains (expanded blocklist as backup)
 const disposableEmailDomains = [
   // Common temp mail services
   'temp-mail.org', 'tempmail.com', 'tempmail.net', 'temp-mail.io', 'temp-mail.de',
   'guerrillamail.com', 'guerrillamail.org', 'guerrillamail.net', 'guerrillamail.info',
   'guerrillamail.biz', 'guerrillamail.de', 'grr.la', 'guerrillamailblock.com',
-  '10minutemail.com', '10minutemail.net', '10minemail.com', '20minutemail.com',
+  '10minutemail.com', '10minutemail.net', '10minemail.com', '10minemail.net', '20minutemail.com',
   'mailinator.com', 'mailinator.net', 'mailinator2.com', 'maildrop.cc',
   'throwaway.email', 'throwemail.com', 'yopmail.com', 'yopmail.fr', 'yopmail.net',
   'mohmal.com', 'sharklasers.com', 'spam4.me', 'getairmail.com',
@@ -31,7 +49,7 @@ const disposableEmailDomains = [
   'mail-temporaire.com', 'mail-temporaire.fr', 'maileater.com', 'mailexpire.com',
   'mailin8r.com', 'mailmetrash.com', 'mailnesia.com', 'mailnull.com',
   'mailsac.com', 'mailtemp.info', 'mailtothis.com', 'meltmail.com',
-  'moncourrier.fr.nf', 'mt2009.com', 'mt2014.com', 'mytrashmail.com',
+  'moncourrier.fr.nf', 'mt2009.com', 'mt2014.com', 'mt2015.com', 'mytrashmail.com',
   'neverbox.com', 'no-spam.ws', 'nobulk.com', 'noclickemail.com',
   'nogmailspam.info', 'notsharingmy.info', 'nowmymail.com', 'objectmail.com',
   'obobbo.com', 'onewaymail.com', 'pookmail.com', 'proxymail.eu',
@@ -44,7 +62,42 @@ const disposableEmailDomains = [
   'xyzfree.net', 'zehnminutenmail.de', 'zippymail.info'
 ];
 
-// Check if email domain is disposable
+// Check if email domain is trusted
+function isTrustedEmail(email: string): boolean {
+  const domain = email.split('@')[1]?.toLowerCase();
+  if (!domain) return false;
+  
+  // Check if it's from trusted providers
+  if (trustedEmailProviders.includes(domain)) {
+    return true;
+  }
+  
+  // Check if domain ends with trusted educational/business extensions
+  const trustedExtensions = ['.edu', '.gov', '.org', '.ac.uk', '.edu.au', '.edu.np', '.edu.in'];
+  if (trustedExtensions.some(ext => domain.endsWith(ext))) {
+    return true;
+  }
+  
+  // Allow corporate emails (domain with company name pattern)
+  // Must have at least 2 parts and common TLD
+  const parts = domain.split('.');
+  if (parts.length >= 2) {
+    const tld = parts[parts.length - 1];
+    const commonTLDs = ['com', 'net', 'co', 'io', 'org', 'tech', 'dev', 'app', 'digital', 'solutions'];
+    
+    // If it's a common TLD and domain doesn't look suspicious, allow it
+    if (commonTLDs.includes(tld)) {
+      // But still check against blocklist
+      if (!disposableEmailDomains.includes(domain) && !hasSuspiciousPattern(domain)) {
+        return true;
+      }
+    }
+  }
+  
+  return false;
+}
+
+// Check if email domain is disposable or suspicious
 function isDisposableEmail(email: string): boolean {
   const domain = email.split('@')[1]?.toLowerCase();
   if (!domain) return true;
@@ -54,6 +107,11 @@ function isDisposableEmail(email: string): boolean {
     return true;
   }
   
+  return hasSuspiciousPattern(domain);
+}
+
+// Helper function to check suspicious patterns
+function hasSuspiciousPattern(domain: string): boolean {
   // Check for common patterns in disposable emails
   const suspiciousPatterns = [
     'temp', 'fake', 'trash', 'disposable', 'throwaway', 'junk',
@@ -91,11 +149,21 @@ export async function POST(request: Request) {
       );
     }
 
-    // Block disposable emails (check for both new requests and verification)
-    if (isDisposableEmail(email)) {
-      console.log(`Blocked disposable email attempt: ${email}`);
+    // First check if email is from trusted provider (whitelist)
+    if (!isTrustedEmail(email)) {
+      // If not trusted, check if it's explicitly blocked (disposable)
+      if (isDisposableEmail(email)) {
+        console.log(`Blocked disposable email attempt: ${email}`);
+        return NextResponse.json(
+          { error: 'Temporary/disposable email addresses are not allowed. Please use a trusted email provider (Gmail, Yahoo, Outlook, etc.).' },
+          { status: 403 }
+        );
+      }
+      
+      // If not trusted and not explicitly blocked, still reject with a softer message
+      console.log(`Blocked untrusted email attempt: ${email}`);
       return NextResponse.json(
-        { error: 'Temporary/disposable email addresses are not allowed. Please use a permanent email address (Gmail, Yahoo, Outlook, etc.).' },
+        { error: 'Please use a recognized email provider (Gmail, Yahoo, Outlook, ProtonMail, iCloud, etc.) or your company/educational email.' },
         { status: 403 }
       );
     }
