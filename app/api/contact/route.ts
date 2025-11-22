@@ -1,6 +1,73 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
+// List of trusted email providers (same as verify-email route)
+const trustedEmailProviders = [
+  // Major email providers
+  'gmail.com', 'googlemail.com', 'yahoo.com', 'yahoo.co.uk', 'yahoo.fr', 'yahoo.de',
+  'outlook.com', 'hotmail.com', 'live.com', 'msn.com',
+  'icloud.com', 'me.com', 'mac.com',
+  'aol.com', 'protonmail.com', 'proton.me', 'pm.me',
+  'zoho.com', 'yandex.com', 'yandex.ru',
+  'mail.com', 'gmx.com', 'gmx.net', 'gmx.de',
+  // Corporate email providers
+  'microsoft.com', 'apple.com', 'amazon.com', 'facebook.com', 'meta.com',
+  'google.com', 'netflix.com', 'tesla.com', 'spacex.com',
+];
+
+// Check if email domain is trusted
+function isTrustedEmail(email: string): boolean {
+  const domain = email.split('@')[1]?.toLowerCase();
+  if (!domain) return false;
+  
+  // Check if it's from trusted providers
+  if (trustedEmailProviders.includes(domain)) {
+    return true;
+  }
+  
+  // Check if domain ends with trusted educational/business extensions
+  const trustedExtensions = ['.edu', '.gov', '.org', '.ac.uk', '.edu.au', '.edu.np', '.edu.in'];
+  if (trustedExtensions.some(ext => domain.endsWith(ext))) {
+    return true;
+  }
+  
+  // Allow corporate emails (domain with company name pattern)
+  const parts = domain.split('.');
+  if (parts.length >= 2) {
+    const tld = parts[parts.length - 1];
+    const commonTLDs = ['com', 'net', 'co', 'io', 'org', 'tech', 'dev', 'app', 'digital', 'solutions'];
+    
+    // If it's a common TLD and domain doesn't look suspicious, allow it
+    if (commonTLDs.includes(tld) && !hasSuspiciousPattern(domain)) {
+      return true;
+    }
+  }
+  
+  return false;
+}
+
+// Helper function to check suspicious patterns
+function hasSuspiciousPattern(domain: string): boolean {
+  const suspiciousPatterns = [
+    'temp', 'fake', 'trash', 'disposable', 'throwaway', 'junk',
+    'spam', 'guerrilla', '10min', '20min', 'minute', 'tempor',
+    'dispos', 'instant', 'burner', 'anon', 'hide', 'privacy',
+    'throw', 'delete', 'expire', 'temporary'
+  ];
+  
+  if (suspiciousPatterns.some(pattern => domain.includes(pattern))) {
+    return true;
+  }
+  
+  const randomPattern1 = /^[a-z0-9]{8,}\./;
+  const randomPattern2 = /^[a-z]+-[a-z0-9]+\./;
+  if (randomPattern1.test(domain) || randomPattern2.test(domain)) {
+    return true;
+  }
+  
+  return false;
+}
+
 export async function POST(request: Request) {
   try {
     const { name, email, subject, message } = await request.json();
@@ -10,6 +77,24 @@ export async function POST(request: Request) {
       return NextResponse.json(
         { error: 'All fields are required' },
         { status: 400 }
+      );
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !emailRegex.test(email)) {
+      return NextResponse.json(
+        { error: 'Please enter a valid email address.' },
+        { status: 400 }
+      );
+    }
+
+    // Check if email is from trusted provider
+    if (!isTrustedEmail(email)) {
+      console.log(`Blocked untrusted email attempt in contact route: ${email}`);
+      return NextResponse.json(
+        { error: 'Please use a recognized email provider (Gmail, Yahoo, Outlook, ProtonMail, iCloud, etc.) or your company/educational email.' },
+        { status: 403 }
       );
     }
 
