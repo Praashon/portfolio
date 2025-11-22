@@ -16,6 +16,7 @@ export default function Contact() {
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error' | 'verifying'>('idle');
   const [verificationCode, setVerificationCode] = useState('');
   const [showVerification, setShowVerification] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -79,15 +80,20 @@ export default function Contact() {
           setShowVerification(true);
           setSubmitStatus('idle');
           setIsSubmitting(false);
+          setErrorMessage('');
         } else if (verifyData.error) {
-          alert(verifyData.error);
+          setErrorMessage(verifyData.error);
           setSubmitStatus('error');
           setIsSubmitting(false);
+          // Auto-hide error after 5 seconds
+          setTimeout(() => setErrorMessage(''), 5000);
         }
       } catch (error) {
         console.error('Error submitting form:', error);
+        setErrorMessage('Something went wrong. Please try again.');
         setSubmitStatus('error');
         setIsSubmitting(false);
+        setTimeout(() => setErrorMessage(''), 5000);
       }
     }
   };
@@ -126,16 +132,23 @@ export default function Contact() {
           setFormData({ name: '', email: '', subject: '', message: '' });
           setShowVerification(false);
           setVerificationCode('');
+          setErrorMessage('');
           setTimeout(() => setSubmitStatus('idle'), 5000);
         } else {
+          setErrorMessage('Failed to send message. Please try again.');
           setSubmitStatus('error');
+          setTimeout(() => setErrorMessage(''), 5000);
         }
       } else {
+        setErrorMessage(verifyData.error || 'Invalid verification code');
         setErrors({ ...errors, code: verifyData.error || 'Invalid code' });
+        setTimeout(() => setErrorMessage(''), 5000);
       }
     } catch (error) {
       console.error('Error verifying code:', error);
+      setErrorMessage('Something went wrong. Please try again.');
       setSubmitStatus('error');
+      setTimeout(() => setErrorMessage(''), 5000);
     } finally {
       setIsSubmitting(false);
     }
@@ -241,6 +254,29 @@ export default function Contact() {
             <h2 className="text-3xl font-bold text-[#f1faee] mb-8">
               Send a Message
             </h2>
+
+            {/* Error Message */}
+            {errorMessage && (
+              <div className="mb-6 p-4 bg-red-500/10 border-2 border-red-500/50 rounded-lg backdrop-blur-sm animate-[slideDown_0.3s_ease-out]">
+                <div className="flex items-start gap-3">
+                  <svg className="w-6 h-6 text-red-400 flex-shrink-0 mt-0.5 animate-[shake_0.5s_ease-in-out]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <div className="flex-1">
+                    <p className="text-red-300 font-medium">{errorMessage}</p>
+                  </div>
+                  <button
+                    onClick={() => setErrorMessage('')}
+                    className="text-red-400 hover:text-red-300 transition-colors"
+                    aria-label="Close"
+                  >
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            )}
             
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="relative">
