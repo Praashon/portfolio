@@ -15,18 +15,12 @@ const trustedEmailProviders = [
   'aol.com', 'protonmail.com', 'proton.me', 'pm.me',
   'zoho.com', 'yandex.com', 'yandex.ru',
   'mail.com', 'gmx.com', 'gmx.net', 'gmx.de',
-  // Corporate email providers
   'microsoft.com', 'apple.com', 'amazon.com', 'facebook.com', 'meta.com',
   'google.com', 'netflix.com', 'tesla.com', 'spacex.com',
-  // Educational domains
   'edu', 'ac.uk', 'edu.au', 'edu.np', 'edu.in',
-  // Business domains (common extensions)
   'gov', 'org', 'company', 'business'
 ];
-
-// List of common disposable email domains (expanded blocklist as backup)
 const disposableEmailDomains = [
-  // Common temp mail services
   'temp-mail.org', 'tempmail.com', 'tempmail.net', 'temp-mail.io', 'temp-mail.de',
   'guerrillamail.com', 'guerrillamail.org', 'guerrillamail.net', 'guerrillamail.info',
   'guerrillamail.biz', 'guerrillamail.de', 'grr.la', 'guerrillamailblock.com',
@@ -38,7 +32,6 @@ const disposableEmailDomains = [
   'dispostable.com', 'trashmail.com', 'fakeinbox.com', 'emltmp.com',
   'mintemail.com', 'getnada.com', 'tempmailo.com', 'emailondeck.com',
   'tmails.net', 'mytemp.email', 'temporary-mail.net', 'mail.tm',
-  // More services
   'anonbox.net', 'binkmail.com', 'bobmail.info', 'bugmenot.com',
   'deadaddress.com', 'despam.it', 'disposeamail.com', 'dodgeit.com',
   'e4ward.com', 'email60.com', 'emailias.com', 'emailinfive.com',
@@ -61,33 +54,21 @@ const disposableEmailDomains = [
   'wegwerfmail.net', 'wegwerfmail.org', 'wetrainbayarea.com', 'wronghead.com',
   'xyzfree.net', 'zehnminutenmail.de', 'zippymail.info'
 ];
-
-// Check if email domain is trusted
 function isTrustedEmail(email: string): boolean {
   const domain = email.split('@')[1]?.toLowerCase();
   if (!domain) return false;
-  
-  // Check if it's from trusted providers
   if (trustedEmailProviders.includes(domain)) {
     return true;
   }
-  
-  // Check if domain ends with trusted educational/business extensions
   const trustedExtensions = ['.edu', '.gov', '.org', '.ac.uk', '.edu.au', '.edu.np', '.edu.in'];
   if (trustedExtensions.some(ext => domain.endsWith(ext))) {
     return true;
   }
-  
-  // Allow corporate emails (domain with company name pattern)
-  // Must have at least 2 parts and common TLD
   const parts = domain.split('.');
   if (parts.length >= 2) {
     const tld = parts[parts.length - 1];
     const commonTLDs = ['com', 'net', 'co', 'io', 'org', 'tech', 'dev', 'app', 'digital', 'solutions'];
-    
-    // If it's a common TLD and domain doesn't look suspicious, allow it
     if (commonTLDs.includes(tld)) {
-      // But still check against blocklist
       if (!disposableEmailDomains.includes(domain) && !hasSuspiciousPattern(domain)) {
         return true;
       }
