@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import PageTransition from "./components/PageTransition";
 
 const geistSans = Geist({
@@ -16,7 +17,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Prashon Gautam - Full Stack Developer",
-  description: "Portfolio of Prashon Gautam - Full Stack Developer specializing in MERN, Django, and PHP",
+  description: "Portfolio of Prashon Gautam - Full Stack Developer from Nepal specializing in MERN, Django, and PHP. Building amazing web experiences with passion and creativity.",
+  keywords: "Prashon Gautam, Full Stack Developer, Web Developer, Nepal, MERN Stack, React, Node.js, Django, PHP",
 };
 
 export default function RootLayout({
@@ -33,6 +35,7 @@ export default function RootLayout({
         <PageTransition>
           {children}
         </PageTransition>
+        <Footer />
       </body>
     </html>
   );

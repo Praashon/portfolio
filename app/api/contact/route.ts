@@ -112,20 +112,20 @@ export async function POST(request: Request) {
       from: process.env.EMAIL_USER,
       to: 'mr.prashon@gmail.com',
       replyTo: email,
-      subject: `📬 New Message from ${name} - ${subject}`,
+      subject: `New Message from ${name} - ${subject}`,
       html: `
         <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f4;">
           <div style="max-width: 600px; margin: 0 auto; background-color: white; padding: 0; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); overflow: hidden;">
             
             <!-- Header -->
             <div style="background: linear-gradient(135deg, #1d3557 0%, #457b9d 100%); padding: 30px; text-align: center;">
-              <h1 style="color: white; margin: 0; font-size: 24px;">✉️ New Contact Message</h1>
+              <h1 style="color: white; margin: 0; font-size: 24px;">New Contact Message</h1>
               <p style="color: #a8dadc; margin: 10px 0 0 0; font-size: 14px;">Email verified & authenticated</p>
             </div>
 
             <!-- Sender Info -->
             <div style="padding: 30px; background-color: #f8f9fa; border-left: 5px solid #457b9d;">
-              <h2 style="color: #1d3557; margin: 0 0 15px 0; font-size: 20px;">📤 Sender Information</h2>
+              <h2 style="color: #1d3557; margin: 0 0 15px 0; font-size: 20px;">Sender Information</h2>
               <table style="width: 100%; border-collapse: collapse;">
                 <tr>
                   <td style="padding: 8px 0; color: #666; font-weight: 600; width: 80px;">Name:</td>
@@ -148,7 +148,7 @@ export async function POST(request: Request) {
             
             <!-- Message Content -->
             <div style="padding: 30px;">
-              <h3 style="color: #1d3557; margin: 0 0 15px 0; font-size: 18px;">💬 Message</h3>
+              <h3 style="color: #1d3557; margin: 0 0 15px 0; font-size: 18px;">Message</h3>
               <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #457b9d;">
                 <p style="margin: 0; line-height: 1.8; color: #333; white-space: pre-wrap;">${message}</p>
               </div>
@@ -157,14 +157,14 @@ export async function POST(request: Request) {
             <!-- Action Button -->
             <div style="padding: 0 30px 30px 30px; text-align: center;">
               <a href="mailto:${email}" style="display: inline-block; background: #457b9d; color: white; padding: 15px 40px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 16px;">
-                📧 Reply to ${name.split(' ')[0]}
+                Reply to ${name.split(' ')[0]}
               </a>
             </div>
             
             <!-- Footer -->
             <div style="background: #f8f9fa; padding: 20px; text-align: center; border-top: 1px solid #ddd;">
               <p style="margin: 0; color: #888; font-size: 12px;">
-                ✅ This email has been verified and sent from your portfolio contact form<br>
+                This email has been verified and sent from your portfolio contact form<br>
                 Click "Reply" or use the button above to respond directly to ${email}
               </p>
             </div>

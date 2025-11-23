@@ -188,41 +188,47 @@ export default function Contact() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#1d3557] via-[#457b9d] to-[#1d3557] pt-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        {/* Header */}
+    <div className="min-h-screen bg-[#F1F0EA] pt-20">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-20">
+        {/* Header with warmth */}
         <div className="text-center mb-16">
-          <h1 className="text-5xl md:text-6xl font-bold mb-4 text-[#f1faee]">
-            Get In Touch
+          <h1 className="text-5xl md:text-6xl font-bold mb-6 text-[#2D232E]">
+            Let's Connect!
           </h1>
-          <p className="text-xl text-[#a8dadc] max-w-3xl mx-auto">
-            Have a project in mind or want to collaborate? Feel free to reach out!
+          <p className="text-xl text-[#534B52] max-w-3xl mx-auto mb-4">
+            Got a cool project idea? Want to collaborate? Or just want to say hi? 
+          </p>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            I'm always excited to hear from fellow developers, potential clients, or anyone who wants to chat about tech!
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-12">
           {/* Contact Information */}
           <div>
-            <h2 className="text-3xl font-bold text-[#f1faee] mb-8">Contact Information</h2>
+            <h2 className="text-3xl font-bold text-[#2D232E] mb-4">How to Reach Me</h2>
+            <p className="text-gray-600 mb-8">
+              Pick your favorite way to connect - I'm active on all of these!
+            </p>
             
             <div className="space-y-6 mb-8">
               {contactInfo.map((info, index) => (
                 <div
                   key={index}
-                  className="flex items-start gap-4 p-4 bg-[#1d3557]/50 backdrop-blur-sm rounded-lg border border-[#457b9d]/30 hover:border-[#a8dadc]/50 hover:-translate-y-1 transition-all duration-300 ease-out"
+                  className="flex items-start gap-4 p-6 bg-white rounded-2xl border-2 border-[#E0DDCF] hover:border-[#474448] hover:-translate-y-1 hover:shadow-xl transition-all duration-300 ease-out"
                 >
-                  <div className="text-[#f1faee] mt-1">{info.icon}</div>
+                  <div className="text-[#474448] mt-1">{info.icon}</div>
                   <div>
-                    <h3 className="text-[#f1faee] font-semibold mb-1">{info.title}</h3>
+                    <h3 className="text-[#2D232E] font-semibold mb-1">{info.title}</h3>
                     {info.link ? (
                       <a
                         href={info.link}
-                        className="text-[#a8dadc] hover:text-[#e63946] transition-colors duration-300"
+                        className="text-[#534B52] hover:text-[#2D232E] transition-colors duration-300"
                       >
                         {info.value}
                       </a>
                     ) : (
-                      <p className="text-[#a8dadc]">{info.value}</p>
+                      <p className="text-gray-600">{info.value}</p>
                     )}
                   </div>
                 </div>
@@ -231,7 +237,10 @@ export default function Contact() {
 
             {/* Social Links */}
             <div>
-              <h3 className="text-xl font-semibold text-[#f1faee] mb-4">Connect with me</h3>
+              <h3 className="text-xl font-semibold text-[#2D232E] mb-4">Let's Be Social!</h3>
+              <p className="text-gray-600 mb-4 text-sm">
+                Follow me for coding updates, projects, and occasional tech memes
+              </p>
               <div className="flex gap-4">
                 {socialLinks.map((social, index) => (
                   <a
@@ -239,7 +248,7 @@ export default function Contact() {
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#a8dadc] hover:text-[#f1faee] hover:-translate-y-1 transition-all duration-300 ease-out"
+                    className="text-[#534B52] hover:text-[#2D232E] hover:-translate-y-2 hover:scale-110 transition-all duration-300 ease-out p-3 bg-white rounded-full shadow-md hover:shadow-xl border-2 border-[#E0DDCF] hover:border-[#474448]"
                     aria-label={social.name}
                   >
                     {social.icon}
@@ -250,10 +259,13 @@ export default function Contact() {
           </div>
 
           {/* Contact Form */}
-          <div className="bg-[#1d3557]/30 backdrop-blur-sm p-8 rounded-2xl border border-[#457b9d]/30 shadow-2xl">
-            <h2 className="text-3xl font-bold text-[#f1faee] mb-8">
-              Send a Message
+          <div className="bg-white p-10 rounded-3xl border-2 border-[#E0DDCF] shadow-xl">
+            <h2 className="text-3xl font-bold text-[#2D232E] mb-4">
+              Drop Me a Message
             </h2>
+            <p className="text-gray-600 mb-6">
+              Fill out the form below and I'll get back to you as soon as possible!
+            </p>
 
             {/* Error Message */}
             {errorMessage && (
@@ -280,8 +292,8 @@ export default function Contact() {
             
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="relative">
-                <label htmlFor="name" className="block text-[#a8dadc] font-medium mb-2">
-                  Name *
+                <label htmlFor="name" className="block text-gray-700 font-medium mb-2">
+                  Your Name *
                 </label>
                 <input
                   type="text"
@@ -289,21 +301,21 @@ export default function Contact() {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 bg-[#1d3557]/70 border-2 ${
-                    errors.name ? 'border-red-500' : 'border-[#457b9d]/50'
-                  } rounded-lg text-[#f1faee] focus:outline-none focus:border-[#a8dadc] focus:bg-[#1d3557] focus:scale-[1.02] transition-all duration-300 ease-out placeholder:text-[#a8dadc]/50`}
-                  placeholder="Your name"
+                  className={`w-full px-4 py-3 bg-[#F1F0EA] border-2 ${
+                    errors.name ? 'border-red-400' : 'border-[#E0DDCF]'
+                  } rounded-xl text-[#2D232E] focus:outline-none focus:border-[#474448] focus:bg-white focus:scale-[1.01] transition-all duration-300 ease-out placeholder:text-[#534B52]`}
+                  placeholder="What should I call you?"
                 />
                 {errors.name && (
-                  <p className="text-red-400 text-sm mt-1">
+                  <p className="text-red-500 text-sm mt-1">
                     {errors.name}
                   </p>
                 )}
               </div>
 
               <div className="relative">
-                <label htmlFor="email" className="block text-[#a8dadc] font-medium mb-2">
-                  Email *
+                <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
+                  Email Address *
                 </label>
                 <input
                   type="email"
@@ -311,20 +323,20 @@ export default function Contact() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 bg-[#1d3557]/70 border-2 ${
-                    errors.email ? 'border-red-500' : 'border-[#457b9d]/50'
-                  } rounded-lg text-[#f1faee] focus:outline-none focus:border-[#a8dadc] focus:bg-[#1d3557] focus:scale-[1.02] transition-all duration-300 ease-out placeholder:text-[#a8dadc]/50`}
+                  className={`w-full px-4 py-3 bg-[#F1F0EA] border-2 ${
+                    errors.email ? 'border-red-400' : 'border-[#E0DDCF]'
+                  } rounded-xl text-[#2D232E] focus:outline-none focus:border-[#474448] focus:bg-white focus:scale-[1.01] transition-all duration-300 ease-out placeholder:text-[#534B52]`}
                   placeholder="your.email@example.com"
                 />
                 {errors.email && (
-                  <p className="text-red-400 text-sm mt-1">
+                  <p className="text-red-500 text-sm mt-1">
                     {errors.email}
                   </p>
                 )}
               </div>
 
               <div className="relative">
-                <label htmlFor="subject" className="block text-[#a8dadc] font-medium mb-2">
+                <label htmlFor="subject" className="block text-gray-700 font-medium mb-2">
                   Subject *
                 </label>
                 <input
@@ -333,21 +345,21 @@ export default function Contact() {
                   name="subject"
                   value={formData.subject}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 bg-[#1d3557]/70 border-2 ${
-                    errors.subject ? 'border-red-500' : 'border-[#457b9d]/50'
-                  } rounded-lg text-[#f1faee] focus:outline-none focus:border-[#a8dadc] focus:bg-[#1d3557] focus:scale-[1.02] transition-all duration-300 ease-out placeholder:text-[#a8dadc]/50`}
-                  placeholder="What's this about?"
+                  className={`w-full px-4 py-3 bg-[#F1F0EA] border-2 ${
+                    errors.subject ? 'border-red-400' : 'border-[#E0DDCF]'
+                  } rounded-xl text-[#2D232E] focus:outline-none focus:border-[#474448] focus:bg-white focus:scale-[1.01] transition-all duration-300 ease-out placeholder:text-[#534B52]`}
+                  placeholder="What's on your mind?"
                 />
                 {errors.subject && (
-                  <p className="text-red-400 text-sm mt-1">
+                  <p className="text-red-500 text-sm mt-1">
                     {errors.subject}
                   </p>
                 )}
               </div>
 
               <div className="relative">
-                <label htmlFor="message" className="block text-[#a8dadc] font-medium mb-2">
-                  Message *
+                <label htmlFor="message" className="block text-gray-700 font-medium mb-2">
+                  Your Message *
                 </label>
                 <textarea
                   id="message"
@@ -355,13 +367,13 @@ export default function Contact() {
                   value={formData.message}
                   onChange={handleChange}
                   rows={6}
-                  className={`w-full px-4 py-3 bg-[#1d3557]/70 border-2 ${
-                    errors.message ? 'border-red-500' : 'border-[#457b9d]/50'
-                  } rounded-lg text-[#f1faee] focus:outline-none focus:border-[#a8dadc] focus:bg-[#1d3557] focus:scale-[1.02] transition-all duration-300 ease-out resize-none placeholder:text-[#a8dadc]/50`}
-                  placeholder="Tell me about your project..."
+                  className={`w-full px-4 py-3 bg-[#F1F0EA] border-2 ${
+                    errors.message ? 'border-red-400' : 'border-[#E0DDCF]'
+                  } rounded-xl text-[#2D232E] focus:outline-none focus:border-[#474448] focus:bg-white focus:scale-[1.01] transition-all duration-300 ease-out resize-none placeholder:text-[#534B52]`}
+                  placeholder="Tell me about your awesome project idea..."
                 />
                 {errors.message && (
-                  <p className="text-red-400 text-sm mt-1">
+                  <p className="text-red-500 text-sm mt-1">
                     {errors.message}
                   </p>
                 )}
@@ -371,24 +383,26 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`w-full flex items-center justify-center gap-3 px-8 py-4 rounded-lg font-semibold transition-all duration-300 ease-out ${
+                  className={`w-full flex items-center justify-center gap-3 px-8 py-4 rounded-xl font-semibold transition-all duration-300 ease-out ${
                     isSubmitting
-                      ? 'bg-[#457b9d] cursor-not-allowed'
-                      : 'bg-[#e63946] hover:bg-[#d62839] hover:scale-105'
-                  } text-[#f1faee]`}
+                      ? 'bg-gray-400 cursor-not-allowed'
+                      : 'bg-[#2D232E] hover:bg-[#474448] hover:scale-105 hover:shadow-xl'
+                  } text-white`}
                 >
                   <FaPaperPlane className={isSubmitting ? 'animate-pulse' : ''} />
                   {isSubmitting ? 'Sending Code...' : 'Send Message'}
                 </button>
               ) : (
                 <div className="space-y-4">
-                  <div className="p-4 bg-[#457b9d]/20 border border-[#457b9d]/50 rounded-lg text-[#a8dadc]">
-                    <p className="font-semibold mb-2">📧 Verification Required</p>
-                    <p className="text-sm">We've sent a 6-digit code to <strong>{formData.email}</strong>. Please enter it below to verify your email.</p>
+                  <div className="p-4 bg-blue-50 border-2 border-blue-200 rounded-xl text-gray-700">
+                    <p className="font-semibold mb-2 flex items-center gap-2">
+                      Verification Required
+                    </p>
+                    <p className="text-sm">We've sent a 6-digit code to <strong className="text-rose-600">{formData.email}</strong>. Please enter it below to verify your email.</p>
                   </div>
                   
                   <div>
-                    <label htmlFor="code" className="block text-[#a8dadc] font-medium mb-2">
+                    <label htmlFor="code" className="block text-gray-700 font-medium mb-2">
                       Verification Code *
                     </label>
                     <input
@@ -400,13 +414,13 @@ export default function Contact() {
                         setVerificationCode(e.target.value.replace(/\D/g, ''));
                         if (errors.code) setErrors({ ...errors, code: '' });
                       }}
-                      className={`w-full px-4 py-3 bg-[#1d3557]/70 border-2 ${
-                        errors.code ? 'border-red-500' : 'border-[#457b9d]/50'
-                      } rounded-lg text-[#f1faee] focus:outline-none focus:border-[#a8dadc] focus:bg-[#1d3557] focus:scale-[1.02] transition-all duration-300 ease-out text-center text-2xl tracking-widest placeholder:text-[#a8dadc]/50`}
+                      className={`w-full px-4 py-3 bg-[#F1F0EA] border-2 ${
+                        errors.code ? 'border-red-400' : 'border-[#E0DDCF]'
+                      } rounded-xl text-[#2D232E] focus:outline-none focus:border-[#474448] focus:bg-white focus:scale-[1.01] transition-all duration-300 ease-out text-center text-2xl tracking-widest placeholder:text-[#534B52]`}
                       placeholder="000000"
                     />
                     {errors.code && (
-                      <p className="text-red-400 text-sm mt-1">{errors.code}</p>
+                      <p className="text-red-500 text-sm mt-1">{errors.code}</p>
                     )}
                   </div>
 
@@ -418,7 +432,7 @@ export default function Contact() {
                         setVerificationCode('');
                         setErrors({});
                       }}
-                      className="flex-1 px-6 py-3 bg-[#1d3557] text-[#f1faee] rounded-lg font-semibold hover:bg-[#1d3557]/80 transition-all duration-300 ease-out"
+                      className="flex-1 px-6 py-3 bg-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-300 transition-all duration-300 ease-out"
                     >
                       Cancel
                     </button>
@@ -426,27 +440,29 @@ export default function Contact() {
                       type="button"
                       onClick={handleVerifyCode}
                       disabled={isSubmitting || verificationCode.length !== 6}
-                      className={`flex-2 flex-grow px-6 py-3 rounded-lg font-semibold transition-all duration-300 ease-out ${
+                      className={`flex-2 flex-grow px-6 py-3 rounded-xl font-semibold transition-all duration-300 ease-out ${
                         isSubmitting || verificationCode.length !== 6
-                          ? 'bg-[#457b9d]/50 cursor-not-allowed'
-                          : 'bg-[#e63946] hover:bg-[#d62839] hover:scale-105'
-                      } text-[#f1faee]`}
+                          ? 'bg-gray-400 cursor-not-allowed'
+                          : 'bg-[#2D232E] hover:bg-[#474448] hover:scale-105'
+                      } text-white`}
                     >
-                      {isSubmitting ? 'Verifying...' : 'Verify & Send'}
+                      {isSubmitting ? 'Verifying...' : 'Verify & Send ✓'}
                     </button>
                   </div>
                 </div>
               )}
 
               {submitStatus === 'success' && (
-                <div className="mt-4 p-4 bg-green-500/20 border border-green-500/50 rounded-lg text-green-400 text-center">
-                  ✓ Message sent successfully! I'll get back to you soon.
+                <div className="mt-4 p-4 bg-green-50 border-2 border-green-300 rounded-xl text-green-700 text-center font-medium">
+                  <span className="text-2xl mr-2">✓</span>
+                  Message sent successfully! I'll get back to you soon.
                 </div>
               )}
 
               {submitStatus === 'error' && (
-                <div className="mt-4 p-4 bg-red-500/20 border border-red-500/50 rounded-lg text-red-400 text-center">
-                  ✗ Failed to send message. Please try again or email me directly.
+                <div className="mt-4 p-4 bg-red-50 border-2 border-red-300 rounded-xl text-red-600 text-center font-medium">
+                  <span className="text-2xl mr-2">✗</span>
+                  Failed to send message. Please try again or email me directly.
                 </div>
               )}
             </form>

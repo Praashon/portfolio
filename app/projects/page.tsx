@@ -1,3 +1,5 @@
+'use client';
+
 import { JSX } from "react";
 import {
   FaGithub,
@@ -25,7 +27,8 @@ export default function Projects() {
     {
       title: "Hotel Booking Management System",
       description:
-        "A comprehensive hotel management system with booking functionality, user management, and admin dashboard.",
+        "A full-featured hotel management system I built to make booking rooms a breeze!",
+      personalNote: "My first big PHP project - learned so much about backend development!",
       tech: ["PHP", "MySQL", "JavaScript", "CSS"],
       features: [
         "User authentication and authorization",
@@ -35,13 +38,14 @@ export default function Projects() {
         "Booking history and status tracking",
       ],
       github: "https://github.com/Praashon/Hotel-Booking-Management-System",
-      gradient: "from-[#001d3d] to-[#293241]",
-      icon: <SiPhp size={40} />,
+      gradient: "from-purple-400 to-blue-500",
+      icon: <SiPhp size={40} />
     },
     {
       title: "Food Ordering System",
       description:
-        "A full-stack MERN application for online food ordering with real-time order tracking and payment integration.",
+        "Hungry? This full-stack MERN app lets you order your favorite food with just a few clicks!",
+      personalNote: "Built this when I was craving food delivery options - necessity is the mother of invention!",
       tech: ["MongoDB", "Express.js", "React.js", "Node.js", "Tailwind CSS"],
       features: [
         "User and restaurant authentication",
@@ -52,13 +56,14 @@ export default function Projects() {
         "Review and rating system",
       ],
       github: "https://github.com/Praashon/Food-Ordering-System.git",
-      gradient: "from-[#001d3d] to-[#293241]",
-      icon: <SiReact size={40} />,
+      gradient: "from-orange-400 to-red-500",
+      icon: <SiReact size={40} />
     },
     {
       title: "Real Estate Platform",
       description:
-        "A Django-based real estate platform for property listings, searches, and inquiries with advanced filtering.",
+        "Find your dream home with this Django-powered platform! Search, filter, and connect with agents.",
+      personalNote: "Django made this so elegant - fell in love with Python's simplicity!",
       tech: ["Django", "Python", "PostgreSQL", "HTML", "CSS"],
       features: [
         "Property listing management",
@@ -69,13 +74,14 @@ export default function Projects() {
         "Responsive design",
       ],
       github: "https://github.com/Praashon/Real-Estate",
-      gradient: "from-[#001d3d] to-[#293241]",
-      icon: <SiDjango size={40} />,
+      gradient: "from-green-400 to-teal-500",
+      icon: <SiDjango size={40} />
     },
     {
       title: "Baymax AI",
       description:
-        "An AI-powered voice assistant with LiveKit integration for real-time communication and intelligent interactions.",
+        "Your personal AI assistant that actually listens! Voice-powered and super smart.",
+      personalNote: "Named after my favorite Disney character - because who doesn't need a healthcare companion?",
       tech: ["Python", "LiveKit", "AI/ML"],
       features: [
         "Real-time voice communication",
@@ -85,13 +91,14 @@ export default function Projects() {
         "Agent-based architecture",
       ],
       github: "https://github.com/Praashon/Baymax-AI",
-      gradient: "from-[#001d3d] to-[#293241]",
-      icon: <SiPython size={40} />,
+      gradient: "from-blue-400 to-cyan-500",
+      icon: <SiPython size={40} />
     },
     {
       title: "Facebook Unsaver",
       description:
-        "A browser extension that helps users unsave all saved posts on Facebook with a single click.",
+        "Clean up your saved posts on Facebook with one click! Because digital decluttering is real.",
+      personalNote: "Made this when my saved posts got out of control - now it's just... *click* done!",
       tech: ["JavaScript", "Browser Extension"],
       features: [
         "One-click unsave functionality",
@@ -101,13 +108,14 @@ export default function Projects() {
         "Efficient batch operations",
       ],
       github: "https://github.com/Praashon/Facebook-Unsaver-Script",
-      gradient: "from-[#001d3d] to-[#293241]",
-      icon: <FaReact size={40} />,
+      gradient: "from-indigo-400 to-purple-500",
+      icon: <FaReact size={40} />
     },
     {
       title: "Telegram Message Sender",
       description:
-        "A script that helps to send the message using username. It will also save the Hash and Profile ID.",
+        "Automate your Telegram messages like a pro! Smart, efficient, and saves all the details.",
+      personalNote: "A handy script for when you need to reach out to multiple people - automation for the win!",
       tech: ["Python", "Python Script"],
       features: [
         "Sends a message to a specified Telegram user.",
@@ -115,8 +123,8 @@ export default function Projects() {
         "Checks if user info already exists before saving",
       ],
       github: "https://github.com/Praashon/Telegram_Message",
-      gradient: "from-[#001d3d] to-[#293241]",
-      icon: <FaReact size={40} />,
+      gradient: "from-sky-400 to-blue-500",
+      icon: <FaReact size={40} />
     },
   ];
 
@@ -141,16 +149,18 @@ export default function Projects() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#1d3557] via-[#457b9d] to-[#1d3557] pt-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        {/* Header */}
+    <div className="min-h-screen bg-[#F1F0EA] pt-20">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-20">
+        {/* Header with personality */}
         <div className="text-center mb-16">
-          <h1 className="text-5xl md:text-6xl font-bold mb-4 text-[#f1faee]">
-            Projects
+          <h1 className="text-5xl md:text-6xl font-bold mb-6 text-[#2D232E]">
+            Things I've Built
           </h1>
-          <p className="text-xl text-[#a8dadc] max-w-3xl mx-auto">
-            A showcase of my best work - from full-stack web applications to
-            database-driven systems
+          <p className="text-xl text-[#534B52] max-w-3xl mx-auto mb-4">
+            Each project tells a story of learning, problem-solving, and late-night coding sessions
+          </p>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            From full-stack web apps to clever automation tools - here's what keeps me excited about coding!
           </p>
         </div>
 
@@ -159,35 +169,35 @@ export default function Projects() {
           {projects.map((project, index) => (
             <div
               key={index}
-              className="bg-[#1d3557]/50 backdrop-blur-sm rounded-xl overflow-hidden border border-[#457b9d]/30 hover:border-[#a8dadc]/70 hover:-translate-y-2 transition-all duration-300 ease-out flex flex-col"
+              className="bg-white rounded-3xl overflow-hidden border-2 border-[#E0DDCF] hover:border-[#474448] hover:-translate-y-3 hover:shadow-2xl transition-all duration-300 ease-out flex flex-col group"
             >
               <div className={`h-2 bg-gradient-to-r ${project.gradient}`}></div>
 
-              <div className="p-6 flex flex-col flex-grow">
+              <div className="p-8 flex flex-col flex-grow">
                 <div className="mb-6 text-center">
-                  <div
-                    className={`inline-block p-4 rounded-lg bg-gradient-to-r ${project.gradient} bg-opacity-10 mb-4 hover:scale-110 transition-transform duration-300 ease-out`}
-                  >
-                    {project.icon}
-                  </div>
-                  <h2 className="text-2xl font-bold text-[#f1faee] mb-3">
+                  <h2 className="text-2xl font-bold text-[#2D232E] mb-3">
                     {project.title}
                   </h2>
-                  <p className="text-[#a8dadc] text-sm">
+                  <p className="text-[#534B52] text-sm mb-3">
                     {project.description}
                   </p>
+                  {project.personalNote && (
+                    <p className="text-[#2D232E] text-xs italic bg-[#E0DDCF] px-3 py-2 rounded-lg inline-block">
+                      💭 {project.personalNote}
+                    </p>
+                  )}
                 </div>
 
                 {/* Tech Stack */}
                 <div className="mb-4">
-                  <h3 className="text-sm font-semibold text-[#f1faee] mb-2">
-                    Tech Stack
+                  <h3 className="text-sm font-semibold text-gray-800 mb-2">
+                    Built With
                   </h3>
                   <div className="flex flex-wrap gap-2 justify-center">
                     {project.tech.map((tech) => (
                       <span
                         key={tech}
-                        className="flex items-center gap-1 px-3 py-1 bg-[#457b9d]/20 rounded-full text-xs text-[#a8dadc] border border-[#457b9d]/30"
+                        className="flex items-center gap-1 px-3 py-1 bg-[#E0DDCF] rounded-full text-xs text-[#2D232E] border border-[#E0DDCF] hover:bg-[#534B52] hover:text-white transition-all duration-200"
                       >
                         {techIcons[tech]}
                         {tech}
@@ -198,16 +208,16 @@ export default function Projects() {
 
                 {/* Features */}
                 <div className="mb-6 flex-grow">
-                  <h3 className="text-sm font-semibold text-[#f1faee] mb-2">
-                    Key Features
+                  <h3 className="text-sm font-semibold text-[#2D232E] mb-2">
+                    Cool Features
                   </h3>
                   <ul className="space-y-1">
                     {project.features.map((feature, idx) => (
                       <li
                         key={idx}
-                        className="flex items-start gap-2 text-[#a8dadc] text-sm"
+                        className="flex items-start gap-2 text-[#534B52] text-sm"
                       >
-                        <span className="text-[#e63946] mt-1">▹</span>
+                        <span className="text-[#474448] mt-1">▹</span>
                         {feature}
                       </li>
                     ))}
@@ -220,9 +230,9 @@ export default function Projects() {
                     href={project.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 w-full px-4 py-2 bg-[#1d3557] hover:bg-[#1d3557]/80 text-[#f1faee] rounded-lg hover:scale-105 transition-all duration-300 ease-out shadow-lg hover:shadow-[#1d3557]/50"
+                    className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-[#2D232E] hover:bg-[#474448] text-white rounded-xl hover:scale-105 transition-all duration-300 ease-out shadow-lg group"
                   >
-                    <FaGithub size={18} />
+                    <FaGithub size={18} className="group-hover:rotate-12 transition-transform duration-300" />
                     View Code
                   </a>
                 </div>
@@ -232,16 +242,23 @@ export default function Projects() {
         </div>
 
         {/* GitHub CTA */}
-        <div className="text-center mt-16">
-          <p className="text-[#a8dadc] mb-4">Want to see more?</p>
+        <div className="text-center mt-16 bg-[#E0DDCF] rounded-3xl p-12 border-2 border-[#534B52]">
+          <h3 className="text-3xl font-bold text-[#2D232E] mb-4">
+            There's More Where That Came From!
+          </h3>
+          <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+            These are just some highlights! Check out my GitHub to see all my experiments, 
+            contributions, and the occasional coding adventure.
+          </p>
           <a
             href="https://github.com/praashon"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-8 py-3 bg-[#e63946] text-[#f1faee] rounded-full font-semibold hover:bg-[#d62839] hover:scale-105 transition-all duration-300 ease-out"
+            className="inline-flex items-center gap-3 px-8 py-4 bg-[#2D232E] text-white rounded-full font-semibold hover:bg-[#474448] hover:scale-105 hover:shadow-xl transition-all duration-300 ease-out group"
           >
-            <FaGithub size={24} />
-            Visit My GitHub
+            <FaGithub size={24} className="group-hover:rotate-12 transition-transform duration-300" />
+            Explore My GitHub
+            <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
           </a>
         </div>
       </div>

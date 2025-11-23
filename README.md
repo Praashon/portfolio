@@ -1,181 +1,225 @@
-# Prashon Gautam - Portfolio Website
+# Prashon Gautam - Professional Portfolio
 
-A modern, responsive portfolio website built with Next.js 14, TypeScript, and Tailwind CSS. Features smooth animations, email verification for contact forms, and a clean, professional design.
+A sophisticated, minimalist portfolio website showcasing full-stack development expertise. Built with Next.js 16, TypeScript, and a carefully curated muted color palette inspired by industrial design aesthetics.
 
-## 🚀 Features
+## ✨ Features
 
-- **Modern Design**: Clean and professional UI with smooth animations
-- **Responsive**: Fully responsive design that works on all devices
-- **Contact Form**: Secure contact form with email verification
-- **Email Integration**: Automated email notifications with nodemailer
-- **Page Transitions**: Smooth page transitions using Framer Motion
-- **SEO Optimized**: Built with Next.js for optimal SEO performance
+- **Sophisticated Design**: Elegant muted color palette (Gunmetal, Shadow Grey, Bone, Taupe Grey)
+- **Comfortable UX**: Spacious layouts with soft rounded corners and generous padding
+- **Fully Responsive**: Seamless experience across all devices and screen sizes
+- **Verified Contact Form**: Secure email verification system with 6-digit code authentication
+- **Professional Branding**: Custom logo integration throughout the site
+- **Optimized Performance**: Built with Next.js 16 and Turbopack for lightning-fast builds
+- **SEO Ready**: Server-side rendering with metadata optimization
 
 ## 📋 Prerequisites
 
-Before you begin, ensure you have the following installed:
-- Node.js (v18 or higher)
-- npm or yarn
-- A Gmail account for email functionality
+- **Node.js** (v18.17 or higher)
+- **npm** or **yarn** package manager
+- **Gmail account** with App Password enabled for contact form functionality
 
-## 🛠️ Installation
+## 🚀 Getting Started
 
-1. **Clone the repository**
-   ```bash
-   git clone <your-repo-url>
-   cd prashon-portfolio-pro
-   ```
+### 1. Clone the Repository
+```bash
+git clone https://github.com/Praashon/Portfolio.git
+cd Portfolio
+```
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+### 2. Install Dependencies
+```bash
+npm install
+```
 
-3. **Set up environment variables**
-   - Copy `.env.example` to `.env.local`
-   ```bash
-   cp .env.example .env.local
-   ```
-   - Open `.env.local` and fill in your credentials:
-     - `EMAIL_USER`: Your Gmail address
-     - `EMAIL_PASS`: Your Gmail App Password (see below)
+### 3. Configure Environment Variables
 
-4. **Get Gmail App Password**
-   - Go to [Google Account Security](https://myaccount.google.com/security)
-   - Enable 2-Step Verification
-   - Go to [App Passwords](https://myaccount.google.com/apppasswords)
-   - Generate a new app password for "Mail"
-   - Copy the 16-character password to your `.env.local`
+Create a `.env.local` file in the root directory:
 
-## 🏃‍♂️ Running Locally
+```env
+EMAIL_USER=your.email@gmail.com
+EMAIL_PASS=your_16_character_app_password
+```
+
+### 4. Generate Gmail App Password
+
+1. Visit [Google Account Security](https://myaccount.google.com/security)
+2. Enable **2-Step Verification** if not already enabled
+3. Navigate to [App Passwords](https://myaccount.google.com/apppasswords)
+4. Select **Mail** and generate a new password
+5. Copy the 16-character password to your `.env.local` file
+
+## 💻 Development
+
+Start the development server:
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Visit [http://localhost:3000](http://localhost:3000) to view the portfolio.
 
-## 📦 Building for Production
+## 🏗️ Production Build
 
 ```bash
 npm run build
-npm run start
+npm start
 ```
 
-## 🌐 Deployment
+## 🌍 Deployment
 
-### Deploy to Vercel (Recommended)
+### Vercel (Recommended)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new)
 
 1. Push your code to GitHub
-2. Go to [Vercel](https://vercel.com)
-3. Import your repository
-4. Add environment variables:
+2. Import your repository on [Vercel](https://vercel.com)
+3. Configure environment variables:
    - `EMAIL_USER`
    - `EMAIL_PASS`
-5. Deploy!
+4. Deploy with one click
 
-### Deploy to Netlify
+### Netlify
 
-1. Build the project:
+1. Build the production bundle:
    ```bash
    npm run build
    ```
-2. Deploy the `.next` folder to Netlify
-3. Add environment variables in Netlify dashboard
+2. Deploy the output to [Netlify](https://netlify.com)
+3. Add environment variables in the Netlify dashboard
 
-## 📁 Project Structure
+## 📂 Project Architecture
 
 ```
-prashon-portfolio-pro/
+portfolio/
 ├── app/
 │   ├── api/
-│   │   ├── contact/
-│   │   │   └── route.ts          # Contact form API
-│   │   └── verify-email/
-│   │       └── route.ts          # Email verification API
+│   │   ├── contact/route.ts          # Contact form handler with email sending
+│   │   └── verify-email/route.ts    # Email verification with 6-digit code
 │   ├── components/
-│   │   ├── Navbar.tsx            # Navigation component
-│   │   └── PageTransition.tsx    # Page transition animations
-│   ├── about/
-│   │   └── page.tsx              # About page
-│   ├── contact/
-│   │   └── page.tsx              # Contact page
-│   ├── projects/
-│   │   └── page.tsx              # Projects page
-│   ├── globals.css               # Global styles
-│   ├── layout.tsx                # Root layout
-│   └── page.tsx                  # Home page
+│   │   ├── Footer.tsx                # Footer with branding and links
+│   │   ├── Navbar.tsx                # Navigation with custom logo
+│   │   └── PageTransition.tsx        # Smooth page transitions
+│   ├── about/page.tsx                # Professional background and skills
+│   ├── contact/page.tsx              # Contact form with verification
+│   ├── projects/page.tsx             # Project showcase with details
+│   ├── globals.css                   # Global styles and animations
+│   ├── layout.tsx                    # Root layout with metadata
+│   └── page.tsx                      # Landing page
 ├── public/
-│   └── mine.jpg                  # Profile image
-├── .env.local                    # Environment variables (not in git)
-├── .env.example                  # Example env file
-├── .gitignore                    # Git ignore file
-├── next.config.ts                # Next.js configuration
-├── package.json                  # Dependencies
-├── tailwind.config.ts            # Tailwind configuration
-└── tsconfig.json                 # TypeScript configuration
+│   ├── my_logo.png                   # Custom brand logo
+│   └── mine.jpg                      # Profile photo
+├── .env.local                        # Environment variables (gitignored)
+├── next.config.ts                    # Next.js 16 configuration
+├── package.json                      # Dependencies and scripts
+└── tsconfig.json                     # TypeScript configuration
 ```
 
-## 🎨 Customization
+## 🎨 Customization Guide
 
-### Update Personal Information
+### Personal Information
 
-1. **Home Page** (`app/page.tsx`)
-   - Update name, title, description
-   - Change social media links
+**Home Page** (`app/page.tsx`)
+- Name, tagline, and introduction
+- Social media links (GitHub, LinkedIn, Email)
+- Profile photo and availability status
 
-2. **About Page** (`app/about/page.tsx`)
-   - Update experience, education, skills
-   - Modify stats and languages
+**About Page** (`app/about/page.tsx`)
+- Work experience and duration
+- Education history
+- Technical skills and expertise
+- Languages and hobbies
+- Stats and achievements
 
-3. **Projects Page** (`app/projects/page.tsx`)
-   - Add/remove projects
-   - Update project details and links
+**Projects Page** (`app/projects/page.tsx`)
+- Project portfolio with descriptions
+- Technology stacks and features
+- GitHub repository links
+- Personal notes and insights
 
-4. **Contact Info** (`app/contact/page.tsx`)
-   - Update email, phone, location
+**Contact Page** (`app/contact/page.tsx`)
+- Email, phone, and location
+- Social media profiles
 
-### Change Colors
+### Design System
 
-The color scheme is defined in Tailwind CSS. Main colors used:
-- `#1d3557` - Dark blue
-- `#457b9d` - Medium blue
-- `#a8dadc` - Light blue
-- `#f1faee` - Cream white
-- `#e63946` - Red accent
+**Sophisticated Color Palette**
+```css
+--background: #F1F0EA;    /* Parchment - Main background */
+--foreground: #2D232E;    /* Shadow Grey - Primary text */
+--primary: #474448;       /* Gunmetal - Accents */
+--secondary: #534B52;     /* Taupe Grey - Secondary text */
+--warm-bg: #E0DDCF;       /* Bone - Subtle backgrounds */
+```
 
-## 📧 Contact Form Security
+**Branding**
+- Replace `public/my_logo.png` with your custom logo
+- Update `public/mine.jpg` with your profile photo
+- Modify navbar and footer branding in components
 
-The contact form includes:
-- Email verification (6-digit code)
-- 10-minute code expiration
-- Prevention of spam and fake emails
-- Automated responses to senders
+## 🔒 Security Features
 
-## 🔧 Technologies Used
+**Email Verification System**
+- 6-digit verification code sent to user's email
+- 10-minute code expiration for security
+- Trusted email provider validation
+- Protection against disposable/temporary emails
+- Automated confirmation emails to senders
+- Rate limiting and spam prevention
 
-- **Next.js 14** - React framework
-- **TypeScript** - Type safety
-- **Tailwind CSS** - Styling
-- **Framer Motion** - Animations
-- **Nodemailer** - Email functionality
-- **React Icons** - Icon library
+## 🛠️ Tech Stack
+
+| Technology | Purpose |
+|------------|---------|
+| **Next.js 16** | React framework with App Router and Turbopack |
+| **TypeScript** | Type-safe development |
+| **Tailwind CSS** | Utility-first styling with custom design system |
+| **Nodemailer** | Email sending and verification |
+| **React Icons** | Professional icon library |
+| **Next.js Image** | Optimized image loading |
+
+**Key Features**
+- Server-side rendering (SSR)
+- API routes for backend functionality
+- Responsive design principles
+- Custom animations and transitions
+- SEO optimization with metadata
+
+## 👨‍💻 About the Developer
+
+**Prashon Gautam**  
+Full Stack Developer | BCA Student | Kathmandu, Nepal
+
+- 📧 Email: [mr.prashon@gmail.com](mailto:mr.prashon@gmail.com)
+- 💼 GitHub: [@Praashon](https://github.com/Praashon)
+- 🔗 LinkedIn: [mrprashon](https://www.linkedin.com/in/mrprashon/)
+- 🌐 Portfolio: [Live Demo](https://your-portfolio-url.vercel.app)
 
 ## 📝 License
 
-This project is open source and available under the MIT License.
-
-## 👤 Author
-
-**Prashon Gautam**
-- Email: mr.prashon@gmail.com
-- GitHub: [@praashon](https://github.com/praashon)
-- LinkedIn: [mrprashon](https://www.linkedin.com/in/mrprashon/)
+This project is open source and available under the [MIT License](LICENSE).
 
 ## 🤝 Contributing
 
 Contributions, issues, and feature requests are welcome!
 
-## ⭐ Show your support
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-Give a ⭐️ if you like this project!
+## 💡 Inspiration
+
+This portfolio design was inspired by:
+- Modern minimalist design principles
+- Industrial color palettes
+- Professional developer portfolios
+- User-centric comfortable layouts
+
+## ⭐ Show Your Support
+
+If you found this portfolio inspiring or helpful, please consider giving it a star!
+
+---
+
+**Built with** ❤️ **by Prashon Gautam**
