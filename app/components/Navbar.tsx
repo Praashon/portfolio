@@ -35,16 +35,12 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link 
-            href="/" 
-            className="relative group"
-          >
+          <Link href="/" className="relative group">
             <span className="text-2xl font-bold bg-gradient-to-r from-[#a8dadc] to-[#f1faee] bg-clip-text text-transparent hover:from-[#f1faee] hover:to-[#a8dadc] transition-all duration-500 ease-out">
               Prashon
             </span>
             <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[#a8dadc] to-[#f1faee] group-hover:w-full transition-all duration-500 ease-out"></div>
           </Link>
-
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-2">
             {navLinks.map((link) => {
